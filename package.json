@@ -8,8 +8,8 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint .",
-    "s":"npx react-native start",
-    "a":"npx react-native run-android"
+    "s": "npx react-native start",
+    "a": "npx react-native run-android"
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.10",

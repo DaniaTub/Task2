@@ -4,8 +4,6 @@ import { FlatList, TextInput } from 'react-native-gesture-handler';
 
 export default function product() {
 
-  // version 3
-
   // state.
   const [total, setTotal] = useState(0);
   const [name, setName] = useState('');
@@ -15,7 +13,8 @@ export default function product() {
 
   const renderProduct = ({ item, index }) => {
     return (
-      <View
+      <TouchableOpacity
+        onPress={() => remElement(index)}
         style={{
           backgroundColor: 'white',
           borderBottomWidth: 1,
@@ -60,7 +59,7 @@ export default function product() {
             </Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 
@@ -72,10 +71,15 @@ export default function product() {
           price: price
         }]
     );
+
+    // turn off the modal.
+    setIsVisib(false);
   }
 
-  const remElement = () => {
-
+  const remElement = (index) => { 
+    const clonedProducts = [...products];
+    clonedProducts.splice(index, 1);
+    setProducts(clonedProducts);
   };
 
   return (
@@ -86,33 +90,6 @@ export default function product() {
           renderItem={renderProduct}
           keyExtractor={(item, indx) => String(indx)}
         />
-      </View>
-
-      <View style={{
-        height: 40,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        padding: 10,
-        backgroundColor: 'white',
-        borderTopColor: '#a1a1a1',
-        borderTopWidth: 1
-      }}>
-
-        <Text
-          style={{
-            color: 'blue',
-            fontSize: 12, fontWeight: 'bold'
-          }}>
-          {'Add'}
-        </Text>
-
-        <Text
-          style={{
-            color: 'blue',
-            fontSize: 12, fontWeight: 'bold'
-          }}>
-          {'Remove'}
-        </Text>
       </View>
 
       <View style={styles.container}>
@@ -134,12 +111,27 @@ export default function product() {
             />
 
             <TextInput
-              placeholder="add name of the product"
+              placeholder="name"
               onChangeText={setName}
+              style={{
+                height: 60,
+                borderWidth: 1,
+                borderRadius: 8,
+                marginBottom: 16,
+                width: '100%'
+              }}
             />
             <TextInput
-              placeholder="add price of the product"
+              placeholder="price"
               onChangeText={setPrice}
+              keyboardType='numeric'
+              style={{
+                height: 60,
+                borderWidth: 1,
+                borderRadius: 8,
+                marginBottom: 16,
+                width: '100%'
+              }}
             />
             <TouchableOpacity
               onPress={addElement}
@@ -151,14 +143,14 @@ export default function product() {
 
           </View>
         </Modal>
+      </View>
 
-        {/*Button will change state to true and view will re-render*/}
+      <View style={{alignSelf:'flex-end'}}>
         <Button
           title="add"
           onPress={() => setIsVisib(true)}
         />
       </View>
-
       <View
         style={{
           height: 60,
@@ -178,7 +170,7 @@ export default function product() {
           style={{
             color: 'grey'
           }}>
-          {'total'}
+          {total}
         </Text>
       </View>
     </View>
