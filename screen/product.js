@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
-import { Text, View, TouchableOpacity, Button, Modal, StyleSheet } from 'react-native';
+import {
+  Text, View, TouchableOpacity, Button,
+  Modal, StyleSheet, Alert
+} from 'react-native';
 import { FlatList, TextInput } from 'react-native-gesture-handler';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function product() {
 
@@ -14,7 +18,6 @@ export default function product() {
   const renderProduct = ({ item, index }) => {
     return (
       <TouchableOpacity
-        onPress={() => remElement(index)}
         style={{
           backgroundColor: 'white',
           borderBottomWidth: 1,
@@ -58,6 +61,13 @@ export default function product() {
               {'Buy'}
             </Text>
           </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => remElement(index)}
+          >
+            <Icon name="trash" size={30} color="#900" />
+          </TouchableOpacity>
+
         </View>
       </TouchableOpacity>
     );
@@ -76,76 +86,51 @@ export default function product() {
     setIsVisib(false);
   }
 
-  const remElement = (index) => { 
-    const clonedProducts = [...products];
-    clonedProducts.splice(index, 1);
-    setProducts(clonedProducts);
+  const remElement = (index) => {
+    Alert.alert(
+      null,
+      'Are you sure do you want to delete an item?',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel'
+        },
+        {
+          text: 'OK', onPress: () => {
+            const clonedProducts = [...products];
+            clonedProducts.splice(index, 1);
+            setProducts(clonedProducts);
+          }
+        }
+      ],
+      { cancelable: false }
+    );
   };
 
   return (
     <View style={{ flex: 1 }}>
-      <View style={{ flex: 1 }}>
-        <FlatList
+      {
+        products.length > 0 && <FlatList
           data={products}
           renderItem={renderProduct}
           keyExtractor={(item, indx) => String(indx)}
         />
-      </View>
+      }
 
-      <View style={styles.container}>
-        <Modal
-          animationType={"fade"}
-          transparent={false}
-          visible={isVisble}
-          onRequestClose={() => setIsVisib(false)}>
-          {/*All views of Modal*/}
-          <View style={styles.modal}>
-            <Text> {"Modal is open!"}</Text>
-            {/* add function */}
+      {
+        products.length === 0 && (<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <Text style={{
+            textAlign: 'center',
+            color: 'red',
+            fontSize: 20
+          }}>
+            {'No Products'}
+          </Text>
+        </View>)
+      }
 
-            <Button
-              title="Click To Close Modal"
-              onPress={() => {
-                setIsVisib(isVisble => !isVisble)
-              }}
-            />
-
-            <TextInput
-              placeholder="name"
-              onChangeText={setName}
-              style={{
-                height: 60,
-                borderWidth: 1,
-                borderRadius: 8,
-                marginBottom: 16,
-                width: '100%'
-              }}
-            />
-            <TextInput
-              placeholder="price"
-              onChangeText={setPrice}
-              keyboardType='numeric'
-              style={{
-                height: 60,
-                borderWidth: 1,
-                borderRadius: 8,
-                marginBottom: 16,
-                width: '100%'
-              }}
-            />
-            <TouchableOpacity
-              onPress={addElement}
-            >
-              <Text>
-                {'Add element'}
-              </Text>
-            </TouchableOpacity>
-
-          </View>
-        </Modal>
-      </View>
-
-      <View style={{alignSelf:'flex-end'}}>
+      <View style={{ alignSelf: 'flex-end' }}>
         <Button
           title="add"
           onPress={() => setIsVisib(true)}
@@ -173,6 +158,57 @@ export default function product() {
           {total}
         </Text>
       </View>
+
+      <Modal
+        animationType={"fade"}
+        transparent={false}
+        visible={isVisble}
+        onRequestClose={() => setIsVisib(false)}>
+        {/*All views of Modal*/}
+        <View style={styles.modal}>
+          <Text> {"Modal is open!"}</Text>
+          {/* add function */}
+
+          <Button
+            title="Click To Close Modal"
+            onPress={() => {
+              setIsVisib(isVisble => !isVisble)
+            }}
+          />
+
+          <TextInput
+            placeholder="name"
+            onChangeText={setName}
+            style={{
+              height: 60,
+              borderWidth: 1,
+              borderRadius: 8,
+              marginBottom: 16,
+              width: '100%'
+            }}
+          />
+          <TextInput
+            placeholder="price"
+            onChangeText={setPrice}
+            keyboardType='numeric'
+            style={{
+              height: 60,
+              borderWidth: 1,
+              borderRadius: 8,
+              marginBottom: 16,
+              width: '100%'
+            }}
+          />
+          <TouchableOpacity
+            onPress={addElement}
+          >
+            <Text>
+              {'Add element'}
+            </Text>
+          </TouchableOpacity>
+
+        </View>
+      </Modal>
     </View>
   );
 };
