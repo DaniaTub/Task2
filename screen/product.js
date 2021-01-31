@@ -8,6 +8,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function product() {
 
+  // version 6
+
   // state.
   const [total, setTotal] = useState(0);
   const [name, setName] = useState('');
