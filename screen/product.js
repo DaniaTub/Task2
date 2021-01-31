@@ -4,6 +4,8 @@ import { FlatList, TextInput } from 'react-native-gesture-handler';
 
 export default function product() {
 
+  // version 6
+
   // state.
   const [total, setTotal] = useState(0);
   const [name, setName] = useState('');
@@ -76,7 +78,7 @@ export default function product() {
     setIsVisib(false);
   }
 
-  const remElement = (index) => { 
+  const remElement = (index) => {
     const clonedProducts = [...products];
     clonedProducts.splice(index, 1);
     setProducts(clonedProducts);
@@ -92,60 +94,7 @@ export default function product() {
         />
       </View>
 
-      <View style={styles.container}>
-        <Modal
-          animationType={"fade"}
-          transparent={false}
-          visible={isVisble}
-          onRequestClose={() => setIsVisib(false)}>
-          {/*All views of Modal*/}
-          <View style={styles.modal}>
-            <Text> {"Modal is open!"}</Text>
-            {/* add function */}
-
-            <Button
-              title="Click To Close Modal"
-              onPress={() => {
-                setIsVisib(isVisble => !isVisble)
-              }}
-            />
-
-            <TextInput
-              placeholder="name"
-              onChangeText={setName}
-              style={{
-                height: 60,
-                borderWidth: 1,
-                borderRadius: 8,
-                marginBottom: 16,
-                width: '100%'
-              }}
-            />
-            <TextInput
-              placeholder="price"
-              onChangeText={setPrice}
-              keyboardType='numeric'
-              style={{
-                height: 60,
-                borderWidth: 1,
-                borderRadius: 8,
-                marginBottom: 16,
-                width: '100%'
-              }}
-            />
-            <TouchableOpacity
-              onPress={addElement}
-            >
-              <Text>
-                {'Add element'}
-              </Text>
-            </TouchableOpacity>
-
-          </View>
-        </Modal>
-      </View>
-
-      <View style={{alignSelf:'flex-end'}}>
+      <View style={{ alignSelf: 'flex-end' }}>
         <Button
           title="add"
           onPress={() => setIsVisib(true)}
@@ -173,6 +122,57 @@ export default function product() {
           {total}
         </Text>
       </View>
+
+      <Modal
+        animationType={"fade"}
+        transparent={false}
+        visible={isVisble}
+        onRequestClose={() => setIsVisib(false)}>
+        {/*All views of Modal*/}
+        <View style={styles.modal}>
+          <Text> {"Modal is open!"}</Text>
+          {/* add function */}
+
+          <Button
+            title="Click To Close Modal"
+            onPress={() => {
+              setIsVisib(isVisble => !isVisble)
+            }}
+          />
+
+          <TextInput
+            placeholder="name"
+            onChangeText={setName}
+            style={{
+              height: 60,
+              borderWidth: 1,
+              borderRadius: 8,
+              marginBottom: 16,
+              width: '100%'
+            }}
+          />
+          <TextInput
+            placeholder="price"
+            onChangeText={setPrice}
+            keyboardType='numeric'
+            style={{
+              height: 60,
+              borderWidth: 1,
+              borderRadius: 8,
+              marginBottom: 16,
+              width: '100%'
+            }}
+          />
+          <TouchableOpacity
+            onPress={addElement}
+          >
+            <Text>
+              {'Add element'}
+            </Text>
+          </TouchableOpacity>
+
+        </View>
+      </Modal>
     </View>
   );
 };
